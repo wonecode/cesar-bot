@@ -6,7 +6,8 @@
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "build": "tsup src/index.ts --minify",
-    "deploy-commands": "node src/utils/deploy-commands.js"
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
