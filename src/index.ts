@@ -5,7 +5,7 @@ import { deployCommands } from './lib/deploy-commands';
 import { getMembersCount } from './lib/utils';
 
 const client = new Client({
-  intents: ['Guilds', 'GuildMessages', 'DirectMessages'],
+  intents: ['Guilds', 'GuildMessages', 'GuildMembers', 'GuildPresences'],
 });
 
 client.once('ready', () => {
