@@ -3,6 +3,10 @@ import { config } from './lib/config';
 import { commands } from './commands';
 import { deployCommands } from './lib/deploy-commands';
 import { getMembersCount } from './lib/utils';
+import {
+  handleAdjectiveInteraction,
+  sendAdjectiveMessage,
+} from './components/monkey-generator/message-handler';
 
 const client = new Client({
   intents: ['Guilds', 'GuildMessages', 'GuildMembers', 'GuildPresences'],
@@ -10,8 +14,9 @@ const client = new Client({
 
 client.once('ready', () => {
   getMembersCount(client);
+  sendAdjectiveMessage(client, '1317503136554029086');
 
-  console.log('2R2T bot is ready! 🤖');
+  console.log('César bot is ready! 🤖');
 });
 
 client.on('guildMemberAdd', () => {
@@ -27,12 +32,17 @@ client.on('guildAvailable', async (guild) => {
 });
 
 client.on('interactionCreate', (interaction) => {
-  if (!interaction.isCommand()) {
+  if (interaction.isCommand()) {
+    const { commandName } = interaction;
+    if (commands[commandName as keyof typeof commands]) {
+      commands[commandName as keyof typeof commands].execute(interaction);
+    }
     return;
   }
-  const { commandName } = interaction;
-  if (commands[commandName as keyof typeof commands]) {
-    commands[commandName as keyof typeof commands].execute(interaction);
+
+  if (interaction.isButton()) {
+    handleAdjectiveInteraction(interaction);
+    return;
   }
 });
 
