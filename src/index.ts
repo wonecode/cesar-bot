@@ -14,7 +14,7 @@ const client = new Client({
 
 client.once('ready', () => {
   getMembersCount(client);
-  sendAdjectiveMessage(client, '1317503136554029086');
+  //sendAdjectiveMessage(client, '1317503136554029086');
 
   console.log('César bot is ready! 🤖');
 });
