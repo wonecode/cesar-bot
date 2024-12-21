@@ -80,14 +80,13 @@ export const handleAdjectiveInteraction = async (interaction: Interaction) => {
 const getHighestRole = (member: GuildMember) => {
   const memberRoles = member.roles.cache;
 
-  // Parcours les rôles dans l'ordre de priorité
   for (const role of ROLE_PRIORITY) {
     if (memberRoles.has(role.id)) {
-      return role; // Retourne le rôle trouvé
+      return role;
     }
   }
 
-  return null; // Aucun rôle valide trouvé
+  return null;
 };
 
 export const sendAdjectiveMessage = async (

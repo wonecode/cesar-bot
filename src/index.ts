@@ -34,10 +34,13 @@ client.on('guildAvailable', async (guild) => {
 client.on('interactionCreate', (interaction) => {
   if (interaction.isCommand()) {
     const { commandName } = interaction;
-    if (commands[commandName as keyof typeof commands]) {
-      commands[commandName as keyof typeof commands].execute(interaction);
+    const command = commands[commandName as keyof typeof commands];
+
+    if (command && 'execute' in command) {
+      command.execute(interaction);
+    } else {
+      console.error(`La commande ${commandName} n'a pas de méthode execute.`);
     }
-    return;
   }
 
   if (interaction.isButton()) {
