@@ -75,7 +75,7 @@ export async function execute(interaction: CommandInteraction) {
   const sessionDescription = interaction.options.get('description')
     ?.value as string;
 
-  const targetChannelId = '1314987399427919926';
+  const targetChannelId = '1319694396677165176';
 
   const targetChannel = interaction.client.channels.cache.get(
     targetChannelId,
@@ -113,7 +113,7 @@ export async function execute(interaction: CommandInteraction) {
     .setTitle(
       `<:palmier:1319723463685967935> SESSION INHOUSE DE LA JUNGLE <:palmier:1319723463685967935>`,
     )
-    .setColor(timeRemaining > 0 ? '#3FE7AB' : '#e74c3c')
+    .setColor('#3FE7AB')
     .setDescription(sessionDescription || null)
     .addFields(
       {
@@ -163,6 +163,7 @@ export async function execute(interaction: CommandInteraction) {
     const message = await targetChannel.send({
       embeds: [embed],
       components: [actionRow],
+      content: '<@&1319693833151447082>',
     });
 
     await interaction.reply({
@@ -209,7 +210,8 @@ export async function execute(interaction: CommandInteraction) {
       actionRow.components[0].setPlaceholder(
         'Les inscriptions à la session sont terminées.',
       );
-      await message.edit({ components: [actionRow] });
+      embed.setColor('#e74c3c');
+      await message.edit({ embeds: [embed], components: [actionRow] });
     });
   } catch (error) {
     console.error("Erreur lors de l'envoi de l'embed :", error);
