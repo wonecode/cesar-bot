@@ -76,7 +76,7 @@ export async function execute(interaction: CommandInteraction) {
   const sessionDescription = interaction.options.get('description')
     ?.value as string;
 
-  const targetChannelId = '1314987399427919926';
+  const targetChannelId = '1319694396677165176';
   const targetChannel = interaction.client.channels.cache.get(
     targetChannelId,
   ) as TextChannel;
