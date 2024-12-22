@@ -12,6 +12,7 @@ import {
 } from 'discord.js';
 
 const userRoles: Map<string, { displayName: string; role: string }> = new Map();
+let activeEventMessageId: string | null = null;
 
 export const data = new SlashCommandBuilder()
   .setName('inhouse')
@@ -76,7 +77,6 @@ export async function execute(interaction: CommandInteraction) {
     ?.value as string;
 
   const targetChannelId = '1314987399427919926';
-
   const targetChannel = interaction.client.channels.cache.get(
     targetChannelId,
   ) as TextChannel;
@@ -89,13 +89,30 @@ export async function execute(interaction: CommandInteraction) {
     return;
   }
 
+  if (activeEventMessageId) {
+    const existingMessage = await targetChannel.messages
+      .fetch(activeEventMessageId)
+      .catch(() => null);
+
+    if (existingMessage) {
+      await interaction.reply({
+        content: 'Une session inhouse est déjà active.',
+        ephemeral: true,
+      });
+      return;
+    } else {
+      activeEventMessageId = null;
+    }
+  }
+
+  userRoles.clear();
+
   const [day, month, year] = sessionDate.split('-').map(Number);
   const [hour, minute] = sessionHour.split(':').map(Number);
 
   const dateObject = new Date(year, month - 1, day, hour, minute);
   const timestamp = Math.floor(dateObject.getTime() / 1000);
   const now = new Date();
-  const timeRemaining = dateObject.getTime() - now.getTime();
 
   if (isNaN(timestamp)) {
     await interaction.reply({
@@ -104,6 +121,17 @@ export async function execute(interaction: CommandInteraction) {
     });
     return;
   }
+
+  if (dateObject <= now) {
+    await interaction.reply({
+      content:
+        'La date et l’heure saisies doivent être postérieures à maintenant.',
+      ephemeral: true,
+    });
+    return;
+  }
+
+  const timeRemaining = dateObject.getTime() - now.getTime();
 
   const embed = new EmbedBuilder()
     .setAuthor({
@@ -194,6 +222,8 @@ export async function execute(interaction: CommandInteraction) {
       //content: '<@&1319693833151447082>',
     });
 
+    activeEventMessageId = message.id;
+
     await interaction.reply({
       content: 'Le post a bien été envoyé avec le menu d’inscription.',
       ephemeral: true,
@@ -240,6 +270,7 @@ export async function execute(interaction: CommandInteraction) {
       );
       embed.setColor('#e74c3c');
       await message.edit({ embeds: [embed], components: [actionRow] });
+      activeEventMessageId = null;
     });
   } catch (error) {
     console.error("Erreur lors de l'envoi de l'embed :", error);
