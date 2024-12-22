@@ -75,7 +75,7 @@ export async function execute(interaction: CommandInteraction) {
   const sessionDescription = interaction.options.get('description')
     ?.value as string;
 
-  const targetChannelId = '1319694396677165176';
+  const targetChannelId = '1314987399427919926';
 
   const targetChannel = interaction.client.channels.cache.get(
     targetChannelId,
@@ -147,13 +147,41 @@ export async function execute(interaction: CommandInteraction) {
     .setCustomId('inhouse_roles')
     .setPlaceholder('Choisissez un rôle ou désinscrivez-vous')
     .addOptions(
-      { label: 'Top', value: 'Top' },
-      { label: 'Jungle', value: 'Jungle' },
-      { label: 'Mid', value: 'Mid' },
-      { label: 'Bot', value: 'Bot' },
-      { label: 'Support', value: 'Support' },
-      { label: 'Fill', value: 'Fill' },
-      { label: 'Se désinscrire', value: 'Unsubscribe' },
+      {
+        label: 'Top',
+        value: 'Top',
+        emoji: { id: '1320072298283405313' },
+      },
+      {
+        label: 'Jungle',
+        value: 'Jungle',
+        emoji: { id: '1320072528516878417' },
+      },
+      {
+        label: 'Mid',
+        value: 'Mid',
+        emoji: { id: '1320072456085442571' },
+      },
+      {
+        label: 'Bot',
+        value: 'Bot',
+        emoji: { id: '1320072382278271147' },
+      },
+      {
+        label: 'Support',
+        value: 'Support',
+        emoji: { id: '1320072415681974393' },
+      },
+      {
+        label: 'Fill',
+        value: 'Fill',
+        emoji: { id: '1320072486590746725' },
+      },
+      {
+        label: 'Se désinscrire',
+        value: 'Unsubscribe',
+        emoji: { id: '1320178958142144595' },
+      },
     );
 
   const actionRow =
@@ -163,7 +191,7 @@ export async function execute(interaction: CommandInteraction) {
     const message = await targetChannel.send({
       embeds: [embed],
       components: [actionRow],
-      content: '<@&1319693833151447082>',
+      //content: '<@&1319693833151447082>',
     });
 
     await interaction.reply({
