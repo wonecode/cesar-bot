@@ -219,13 +219,13 @@ export async function execute(interaction: CommandInteraction) {
     const message = await targetChannel.send({
       embeds: [embed],
       components: [actionRow],
-      //content: '<@&1319693833151447082>',
+      content: '<@&1319693833151447082>',
     });
 
     activeEventMessageId = message.id;
 
     await interaction.reply({
-      content: 'Le post a bien été envoyé avec le menu d’inscription.',
+      content: 'La session a bien été créée.',
       ephemeral: true,
     });
 
@@ -264,13 +264,17 @@ export async function execute(interaction: CommandInteraction) {
     );
 
     collector.on('end', async () => {
-      actionRow.components[0].setDisabled(true);
-      actionRow.components[0].setPlaceholder(
-        'Les inscriptions à la session sont terminées.',
-      );
-      embed.setColor('#e74c3c');
-      await message.edit({ embeds: [embed], components: [actionRow] });
-      activeEventMessageId = null;
+      try {
+        actionRow.components[0].setDisabled(true);
+        actionRow.components[0].setPlaceholder(
+          'Les inscriptions à la session sont terminées.',
+        );
+        embed.setColor('#e74c3c');
+        await message.edit({ embeds: [embed], components: [actionRow] });
+        activeEventMessageId = null;
+      } catch (_) {
+        activeEventMessageId = null;
+      }
     });
   } catch (error) {
     console.error("Erreur lors de l'envoi de l'embed :", error);
