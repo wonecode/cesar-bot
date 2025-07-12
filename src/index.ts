@@ -7,9 +7,16 @@ import {
   handleAdjectiveInteraction,
   sendAdjectiveMessage,
 } from './components/monkey-generator/message-handler';
+import { registerMessageResponder } from './listeners/message-responder';
 
 const client = new Client({
-  intents: ['Guilds', 'GuildMessages', 'GuildMembers', 'GuildPresences'],
+  intents: [
+    'Guilds',
+    'GuildMessages',
+    'GuildMembers',
+    'GuildPresences',
+    'MessageContent',
+  ],
 });
 
 client.once('ready', () => {
@@ -48,5 +55,7 @@ client.on('interactionCreate', (interaction) => {
     return;
   }
 });
+
+registerMessageResponder(client);
 
 client.login(config.DISCORD_TOKEN);
